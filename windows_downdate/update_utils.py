@@ -113,7 +113,10 @@ def pend_update(pending_xml_path: str, impersonate_ti: bool) -> None:
 
     poqexec_path_exp = os.path.expandvars(POQEXEC_PATH)
     poqexec_cmd = f"{poqexec_path_exp} /display_progress \\??\\{pending_xml_path}"
-    register_poqexec_cmd(poqexec_cmd)
+
+    if impersonate_ti:
+        with smart_trusted_installer_impersonator():
+            register_poqexec_cmd(poqexec_cmd)
 
     load_components_hive()
 
